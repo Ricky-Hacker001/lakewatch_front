@@ -36,7 +36,7 @@ export default function ReportCard({ report, onClick, onUpdate }) {
     if (confirmed || confirmLoading) return
     setConfirmLoading(true)
     try {
-      const { data } = await axios.post(`/api/reports/${report.id}/confirm`)
+      const { data } = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/reports/${report.id}/confirm`);
       
       // Save confirmation state locally to prevent duplicate clicks
       const confirmedMap = JSON.parse(localStorage.getItem('lw_confirmed_reports') || '{}')

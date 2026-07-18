@@ -100,7 +100,7 @@ export default function MapView({ reports = [], onReportClick, customPolygons = 
   useEffect(() => {
     const fetchLakes = async () => {
       try {
-        const { data } = await axios.get('/api/lakes')
+        const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/lakes`);
         setLakes(data)
       } catch (err) {
         console.error('Failed to load lake overlays:', err)

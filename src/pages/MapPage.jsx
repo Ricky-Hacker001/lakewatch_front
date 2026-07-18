@@ -52,7 +52,7 @@ export default function MapPage() {
       const params = {}
       if (statusFilter !== 'All Statuses') params.status = statusFilter
       if (typeFilter   !== 'All Types')    params.type   = typeFilter
-      const { data } = await axios.get('/api/reports', { params })
+      const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/reports`, { params });
       setReports(data)
     } catch (err) {
       console.error('Failed to fetch reports:', err)

@@ -160,7 +160,7 @@ export default function ReportPage() {
       fd.append('violation_type', violationType)
       fd.append('description',    description)
       if (photo) fd.append('photo', photo)
-      const { data } = await axios.post('/api/reports', fd)
+      const { data } = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/reports`, fd);
       setSubmitted(data)
     } catch {
       setSubmitError('Submission failed. Please check your network and try again.')

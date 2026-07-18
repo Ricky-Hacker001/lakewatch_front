@@ -127,7 +127,7 @@ export default function AdminPage() {
   const fetchReports = useCallback(async () => {
     setLoading(true)
     try {
-      const { data } = await axios.get('/api/reports')
+      const { data } = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/reports`)
       setReports(data)
     } catch {
       showToast('Failed to load reports', 'error')
@@ -143,7 +143,7 @@ export default function AdminPage() {
   const updateStatus = async (id, status) => {
     setUpdating(id)
     try {
-      const { data } = await axios.patch(`/api/reports/${id}/status`, { status })
+      const { data } = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/reports/${id}/status`, { status })
       setReports(prev => prev.map(r => r.id === id ? data : r))
       showToast(`Status updated to "${status}"`)
       if (selectedReport && selectedReport.id === id) {
@@ -160,8 +160,8 @@ export default function AdminPage() {
     if (!selectedReport) return
     setSavingRemarks(true)
     try {
-      const { data } = await axios.patch(`/api/reports/${selectedReport.id}/remarks`, {
-        admin_remarks: remarksText
+        const { data } = await axios.patch(`${import.meta.env.VITE_API_BASE_URL}/api/reports/${selectedReport.id}/remarks`, {
+          admin_remarks: remarksText
       })
       setReports(prev => prev.map(r => r.id === selectedReport.id ? data : r))
       setSelectedReport(data)
@@ -555,7 +555,7 @@ export default function AdminPage() {
                       {/* PDF Action */}
                       <td className="px-4 py-4" onClick={e => e.stopPropagation()}>
                         <a
-                          href={`/api/reports/${r.id}/pdf`}
+                          href={`${import.meta.env.VITE_API_BASE_URL}/api/reports/${r.id}/pdf`}
                           download
                           className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-950/40 border border-emerald-500/10 hover:border-emerald-500/30 text-emerald-400"
                         >
@@ -695,7 +695,7 @@ export default function AdminPage() {
             {/* Action Row */}
             <div className="flex justify-between items-center pt-4 border-t border-slate-800/40">
               <a
-                href={`/api/reports/${selectedReport.id}/pdf`}
+                href={`${import.meta.env.VITE_API_BASE_URL}/api/reports/${selectedReport.id}/pdf`}
                 download
                 className="btn-primary flex items-center gap-1.5 text-xs"
                 style={{ padding: '9px 18px' }}
