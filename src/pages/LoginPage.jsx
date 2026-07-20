@@ -29,20 +29,25 @@ export default function LoginPage() {
     setLoading(true)
 
     try {
-      const { data } = await axios.post('/api/auth/login', { username, password })
+      const { data } = await axios.post(`${import.meta.env.VITE_API_BASE_URL}/api/auth/login`, { username, password })
+      
+      // Clear out old tokens first to prevent conflicts
+      localStorage.clear()
+
+      // Set generic keys
       localStorage.setItem('lw_token', data.token)
       localStorage.setItem('lw_role', data.role)
       
+      // Explicitly set admin or citizen specific storage keys used by your guards
       if (data.role === 'admin') {
         localStorage.setItem('lw_admin_token', data.token)
         localStorage.setItem('lw_admin_role', data.role)
         window.dispatchEvent(new Event('storage'))
-        navigate('/admin')
+        navigate('/admin', { replace: true })
       } else {
-        localStorage.removeItem('lw_admin_token')
-        localStorage.removeItem('lw_admin_role')
+        localStorage.setItem('lw_user_token', data.token)
         window.dispatchEvent(new Event('storage'))
-        navigate('/')
+        navigate('/', { replace: true })
       }
     } catch (err) {
       if (err.response && err.response.status === 401) {
